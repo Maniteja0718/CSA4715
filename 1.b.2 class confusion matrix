@@ -1,0 +1,36 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
+
+# Load breast cancer dataset
+data = load_breast_cancer()
+X = data.data
+y = data.target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a logistic regression model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = model.predict(X_test)
+
+# Create the confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+# Display the confusion matrix
+print("Confusion Matrix:")
+print(conf_matrix)
+
+# Plotting the confusion matrix
+sns.heatmap(conf_matrix, annot=True, cmap='Blues', fmt='g', xticklabels=["Benign", "Malignant"], yticklabels=["Benign", "Malignant"])
+plt.xlabel('Predicted labels')
+plt.ylabel('Actual labels')
+plt.title('Confusion Matrix')
+plt.show()
